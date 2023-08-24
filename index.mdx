@@ -1,185 +1,162 @@
 ---
 title: Routing Fundamentals 路由基础
-nav_title: Routing
-description: Learn the fundamentals of routing for front-end applications.
+nav_title: 路由
+description: 学习前端路由的基础。
 ---
 
-每一个应用的骨架是路由。本文将会为你介绍网页路由的基础概念，以及如何在Next.js中处理路由。
-The skeleton of every application is routing. This page will introduce you to the **fundamental concepts** of routing for the web and how to handle routing in Next.js.
+路由是每一个应用的骨架。本文会为你介绍网页路由的**基础概念**，以及如何在Next.js中处理路由。
 
-## Terminology术语
+## 术语
 
+首先，以下这些术语会在整个文档中都会使用得到。
 First, you will see these terms being used throughout the documentation. Here's a quick reference:
 首先，你会看见以下这些术语贯穿全文。我们来快速地检阅一下：
 
-![](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fterminology-component-tree.png&w=1920&q=75&dpl=dpl_5a1cNykveVkktaLQcGKxg3Lhut3Y)
-
 <Image
   alt="Terminology for Component Tree"
-  srcLight="/docs/light/terminology-component-tree.png"
-  srcDark="/docs/dark/terminology-component-tree.png"
+  srcLight="https://nextjs.org/docs/light/terminology-component-tree.png"
+  srcDark="https://nextjs.org/docs/dark/terminology-component-tree.png"
   width="1600"
   height="832"
 />
 
-- **Tree:** A convention for visualizing a hierarchical structure. For example, a component tree with parent and children components, a folder structure, etc.
-- **树 Tree：** 一种可视化分层结构的惯例。例如，包含父子组件的组件树、一个文件夹结构等。
-- **Subtree:** Part of a tree, starting at a new root (first) and ending at the leaves (last).
-- **子树 Subtree ：** 树的一部分，以根节点为开始，以叶子节点为结束。
-- **Root**: The first node in a tree or subtree, such as a root layout.
-- **根 Root:** 树或子树的第一个节点，如根布局。
-- **Leaf:** Nodes in a subtree that have no children, such as the last segment in a URL path.
-- 叶：** 子树中没有子节点的节点，如 URL 路径中的最后一段。
+- **树（Tree）：** 可视化展现层级结构的一种习惯表现方式。例如，一个组件树，里面包含了父组件和子组件、一个文件夹结构等等。
+- **子树（Subtree）：** 树的一部分，从新的根节点为始，到叶子节点为止。
+- **根（Root）:** 树或子树的第一个节点，如一个根布局。
+- **叶（Leaf）：** 子树中没有子节点的节点，如 URL 路径中的末节。
 
 <Image
   alt="Terminology for URL Anatomy"
-  srcLight="/docs/light/terminology-url-anatomy.png"
-  srcDark="/docs/dark/terminology-url-anatomy.png"
+  srcLight="https://nextjs.org/docs/light/terminology-url-anatomy.png"
+  srcDark="https://nextjs.org/docs/dark/terminology-url-anatomy.png"
   width="1600"
   height="371"
 />
 
-![](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fterminology-url-anatomy.png&w=1920&q=75&dpl=dpl_5a1cNykveVkktaLQcGKxg3Lhut3Y)
+- **URL段：**以斜线分隔的 URL 路径的一部分。
+- **URL路径：**域名后的 URL 部分（由URL段组成）。
 
-- **URL Segment:** Part of the URL path delimited by slashes.
-- **URL Path:** Part of the URL that comes after the domain (composed of segments).
+## `app` 路由
 
-## The `app` Router
+Next.js 在版本13中，引入了一个新的**App 路由**基于 [React 服务器组件](https://nextjs.org/docs/getting-started/react-essentials#server-components)。它支持统一配置：页面布局、嵌套路由、加载状态、错误处理等。
 
-在版本13中，Next.js 引入了一个新的**App 路由**基于 [React 服务器组件](/docs/getting-started/react-essentials#server-components)。它支持共享布局、嵌套路由、加载状态、错误处理等。
-In version 13, Next.js introduced a new **App Router** built on [React Server Components](/docs/getting-started/react-essentials#server-components), which supports shared layouts, nested routing, loading states, error handling, and more.
+App 路由运行在一个名为 `app` 的新路径下。目前 `app` 路径和 `pages` 路径会并行使用，以待 `app` 路径被越来越多地被应用。这样你可以选择以新的方式配置一部分路由，而把另一部分页面保留在原有`pages`路径中。如果你的应用在使用 `pages` 路径，你可以参考 [页面路由](https://nextjs.org/docs/pages/building-your-application/routing) 这篇文档。
 
-App 路由运行在一个新的路径`app`下。`app`路径和`pages`路径并行使用，以便（`app`路径）逐步被采纳。这样你就可以有选择性地以新的方式配置一部分路由，而维持其他路由在`pages`路径中。如果你的应用在使用`pages`路径，你可以参考[页面路由](https://nextjs.org/docs/pages/building-your-application/routing)这篇文档。
-The App Router works in a new directory named `app`. The `app` directory works alongside the `pages` directory to allow for incremental adoption. This allows you to opt some routes of your application into the new behavior while keeping other routes in the `pages` directory for previous behavior. If your application uses the `pages` directory, please also see the [Pages Router](/docs/pages/building-your-application/routing) documentation.
+> **请注意**：App 路由优先级高于 Pages 路由。这两者形成的路由不应解析到相同的 URL 路径，避免在构建时发生冲突和报错。
 
-> **请注意**：App 路由优先级高于页面路由。这两者形成的路由不应解析到相同的 URL 路径，并会在构建时出错，以防止冲突。
-> **Good to know**: The App Router takes priority over the Pages Router. Routes across directories should not resolve to the same URL path and will cause a build-time error to prevent a conflict.
-
-![Next.js App Directory](https://nextjs.org/_next/image?url=%2Fdocs%2Flight%2Fnext-router-directories.png&w=1920&q=75&dpl=dpl_5a1cNykveVkktaLQcGKxg3Lhut3Y)
 <Image
   alt="Next.js App Directory"
-  srcLight="/docs/light/next-router-directories.png"
-  srcDark="/docs/dark/next-router-directories.png"
+  srcLight="https://nextjs.org/docs/light/next-router-directories.png"
+  srcDark="https://nextjs.org/docs/dark/next-router-directories.png"
   width="1600"
   height="444"
 />
 
-`app`路径下的组件默认是[React 服务器组件](/docs/getting-started/react-essentials#server-components)。这是一种性能优化，也能让你轻松上手，当然你也可以使用[客户端组件](/docs/getting-started/react-essentials#client-components)。
-By default, components inside `app` are [React Server Components](/docs/getting-started/react-essentials#server-components). This is a performance optimization and allows you to easily adopt them, and you can also use [Client Components](/docs/getting-started/react-essentials#client-components).
+为了性能优化，且能让你轻松上手，`app`路径下默认使用的是[React 服务器组件](https://nextjs.org/docs/getting-started/react-essentials#server-components)。当然你也可以使用[客户端组件](https://nextjs.org/docs/getting-started/react-essentials#client-components)。
 
-> **推荐：**请阅读 [Server and Client Components](/docs/getting-started/react-essentials) 页面如果你对服务器组件还不了解。
-> **Recommendation:** Check out the [Server and Client Components](/docs/getting-started/react-essentials) page if you're new to Server Components.
+> **推荐：**如果你对服务器组件还不了解的话，请阅读 [服务器组件和客户端组件](https://nextjs.org/docs/getting-started/react-essentials) 这篇文章。
 
-## Roles of Folders and Files文件夹和文件的角色
+## 文件夹和文件的角色
 
 Next.js 使用了以下这种基于文件系统的路由,其中：
-Next.js uses a file-system based router where:
 
-- **文件夹** 被用于定义路径。一个路由节点是一组嵌套文件夹里的单一路径，跟随着文件系统的层级结构从**根文件夹**到最终的**叶子文件夹**，包含一个`page.js`文件。参考[定义路由](/docs/app/building-your-application/routing/defining-routes)。
-- **Folders** are used to define routes. A route is a single path of nested folders, following the file-system hierarchy from the **root folder** down to a final **leaf folder** that includes a `page.js` file. See [Defining Routes](/docs/app/building-your-application/routing/defining-routes).
-- **文件** 被用于创建 UI，这些 UI 会在路由节点中显示。参考[特殊文件](#file-conventions)。
-- **Files** are used to create UI that is shown for a route segment. See [special files](#file-conventions).
+- **文件夹** 被用于定义路径。一个路由节点是一组嵌套文件夹里的单一路径，跟随着文件系统的层级结构从**根文件夹**到最终的**叶子文件夹**，包含一个`page.js`文件。参考[定义路由](https://nextjs.org/docs/app/building-your-application/routing/defining-routes)。
+- **文件** 被用于创建 UI，这些 UI 会在路由节点中显示。参考[特殊文件](https://nextjs.org/docs/app/building-your-application/routing#file-conventions)。
 
-## Route Segments 路由
+## 路由
 
 每个文件夹在路由中代表一个**路由节点**。每个路由节点映射到一个**URL路径**中的**段**。
-Each folder in a route represents a **route segment**. Each route segment is mapped to a corresponding **segment** in a **URL path**.
 
 <Image
   alt="How Route Segments Map to URL Segments"
-  srcLight="/docs/light/route-segments-to-path-segments.png"
-  srcDark="/docs/dark/route-segments-to-path-segments.png"
+  srcLight="https://nextjs.org/docs/light/route-segments-to-path-segments.png"
+  srcDark="https://nextjs.org/docs/dark/route-segments-to-path-segments.png"
   width="1600"
   height="594"
 />
 
-## Nested Routes 嵌套路由
+## 嵌套路由
 
 为了创建一个嵌套路由，你可以在彼此之间嵌套文件夹。例如，你可以在`app`文件夹中嵌套两个新的文件夹来添加一个新的`/dashboard/settings`路由。
 
-`/dashboard/settings`路由由三个段组成：
-To create a nested route, you can nest folders inside each other. For example, you can add a new `/dashboard/settings` route by nesting two new folders in the `app` directory.
+`/dashboard/settings`路由由三段组成：
 
-The `/dashboard/settings` route is composed of three segments:
+- `/` (根节点)
+- `dashboard` (中间节点)
+- `settings` (叶子节点)
 
-- `/` (Root segment)
-- `dashboard` (Segment)
-- `settings` (Leaf segment)
+## 文件命名习惯
 
-## File Conventions
+Next.js 提供了一组特殊文件名的文件来对 UI 进行特定的配置：
 
-Next.js 提供了一组特殊的文件来创建具有特定行为的 UI：
-Next.js provides a set of special files to create UI with specific behavior in nested routes:
+|                                                                                       　　　　　　　　　　|                                                                                                |
+| ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| [`layout`](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)     | 为页面和子页面共享 UI 布局                                                                       |
+| [`page`](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#pages)         | 界面单独配置，并让路由公开可访问                                                                  |
+| [`loading`](https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming)     | 为页面和子页面设置一个加载中的UI样式                            　　　　　                         |
+| [`not-found`](https://nextjs.org/docs/app/api-reference/file-conventions/not-found)                     | 为页面和子页面设置一个页面没找到的UI样式                  　　　                                   |
+| [`error`](https://nextjs.org/docs/app/building-your-application/routing/error-handling)                 | 为页面和子页面设置一个提示报错的UI样式　                                                          |
+| [`global-error`](https://nextjs.org/docs/app/building-your-application/routing/error-handling)          | 全局报错显示的UI                                                                                |
+| [`route`](https://nextjs.org/docs/app/building-your-application/routing/route-handlers)                 | 服务器端 API 终端            　　　　　                                                          |
+| [`template`](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#templates) | 专门重新渲染的布局用户界面   　　　　　　                                                         |
+| [`default`](https://nextjs.org/docs/app/api-reference/file-conventions/default)                         | 为 [并行路由](/docs/app/building-your-application/routing/parallel-routes) 准备的后备　UI　　　　|
 
-|                                                                                       |                                                                                                |
-| ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| [`layout`](/docs/app/building-your-application/routing/pages-and-layouts#layouts)     | Shared UI for a segment and its children                                                       |
-| [`page`](/docs/app/building-your-application/routing/pages-and-layouts#pages)         | Unique UI of a route and make routes publicly accessible                                       |
-| [`loading`](/docs/app/building-your-application/routing/loading-ui-and-streaming)     | Loading UI for a segment and its children                                                      |
-| [`not-found`](/docs/app/api-reference/file-conventions/not-found)                     | Not found UI for a segment and its children                                                    |
-| [`error`](/docs/app/building-your-application/routing/error-handling)                 | Error UI for a segment and its children                                                        |
-| [`global-error`](/docs/app/building-your-application/routing/error-handling)          | Global Error UI                                                                                |
-| [`route`](/docs/app/building-your-application/routing/route-handlers)                 | Server-side API endpoint                                                                       |
-| [`template`](/docs/app/building-your-application/routing/pages-and-layouts#templates) | Specialized re-rendered Layout UI                                                              |
-| [`default`](/docs/app/api-reference/file-conventions/default)                         | Fallback UI for [Parallel Routes](/docs/app/building-your-application/routing/parallel-routes) |
+> **推荐：文件后缀名为 `.js`, `.jsx`, 或 `.tsx` 的文件可以被用于上述这些文件.
 
-> **推荐：文件后缀名为 `.js`, `.jsx`, 或 `.tsx` 的文件可以被用于特定的文件.
-> **Good to know**: `.js`, `.jsx`, or `.tsx` file extensions can be used for special files.
+## 组件层次结构
 
-## Component Hierarchy
-
-The React components defined in special files of a route segment are rendered in a specific hierarchy:
+在路由节点上述文件中定义的 React 组件，会以特定的文字结构层次化呈现：
 
 - `layout.js`
 - `template.js`
 - `error.js` (React error boundary)
 - `loading.js` (React suspense boundary)
 - `not-found.js` (React error boundary)
-- `page.js` or nested `layout.js`
+- `page.js` or 嵌套的 `layout.js`
 
 <Image
   alt="Component Hierarchy for File Conventions"
-  srcLight="/docs/light/file-conventions-component-hierarchy.png"
-  srcDark="/docs/dark/file-conventions-component-hierarchy.png"
+  srcLight="https://nextjs.org/docs/light/file-conventions-component-hierarchy.png"
+  srcDark="https://nextjs.org/docs/dark/file-conventions-component-hierarchy.png"
   width="1600"
   height="643"
 />
 
-In a nested route, the components of a segment will be nested **inside** the components of its parent segment.
+在嵌套路由中，路由节点的组件将嵌套在父段组件**内**。.
 
 <Image
   alt="Nested File Conventions Component Hierarchy"
-  srcLight="/docs/light/nested-file-conventions-component-hierarchy.png"
-  srcDark="/docs/dark/nested-file-conventions-component-hierarchy.png"
+  srcLight="https://nextjs.org/docs/light/nested-file-conventions-component-hierarchy.png"
+  srcDark="https://nextjs.org/docs/dark/nested-file-conventions-component-hierarchy.png"
   width="1600"
   height="863"
 />
 
-## Colocation
+## 公用文件路径
 
-In addition to special files, you have the option to colocate your own files (e.g. components, styles, tests, etc) inside folders in the `app` directory.
+除了特别文件之外，你也可以选择将你的自己文件（如组件、样式、测试等）在app中一同存放和定位。
 
-This is because while folders define routes, only the contents returned by `page.js` or `route.js` are publicly addressable.
+这是因为尽管文件夹定义了路径，只有`page.js`或`route.js`返回的内容是公开可用地址访问的。
 
 <Image
   alt="An example folder structure with colocated files"
-  srcLight="/docs/light/project-organization-colocation.png"
-  srcDark="/docs/dark/project-organization-colocation.png"
+  srcLight="https://nextjs.org/docs/light/project-organization-colocation.png"
+  srcDark="https://nextjs.org/docs/dark/project-organization-colocation.png"
   width="1600"
   height="1011"
 />
 
-Learn more about [Project Organization and Colocation](/docs/app/building-your-application/routing/colocation).
+从 [项目组织和共用路径](https://nextjs.org/docs/app/building-your-application/routing/colocation) 了解更多。
 
-## Advanced Routing Patterns
+## 高级路由设置
 
-The App Router also provides a set of conventions to help you implement more advanced routing patterns. These include:
+App　路由还提供了一组约定来帮助你实现更高级的路由模式。这些包括：
 
-- [Parallel Routes](/docs/app/building-your-application/routing/parallel-routes): Allow you to simultaneously show two or more pages in the same view that can be navigated independently. You can use them for split views that have their own sub-navigation. E.g. Dashboards.
-- [Intercepting Routes](/docs/app/building-your-application/routing/intercepting-routes): Allow you to intercept a route and show it in the context of another route. You can use these when keeping the context for the current page is important. E.g. Seeing all tasks while editing one task or expanding a photo in a feed.
+- ［平行路由](https://nextjs.org/docs/app/building-your-application/routing/parallel-routes)：允许你同时在同一个视图中显示两个或更多页面，这些页面可以独立导航。你可以使用它们来为拥有自己子导航的分割视图。例如：仪表盘。
+- [嵌套路由](https://nextjs.org/docs/app/building-your-application/routing/nested-routes)：允许你截取一条路由，并在另一条路由的上下文中显示。当保持当前页面的上下文非常重要时，您可以使用这些功能。例如，在编辑一项任务时查看所有任务，或在 feed 中展开一张照片。
 
-These patterns allow you to build richer and more complex UIs, democratizing features that were historically complex for small teams and individual developers to implement.
+通过这些模式，您可以构建更丰富、更复杂的用户界面，并将以往由小型团队和个人开发人员实施的复杂功能平民化。
 
-## Next Steps
+## 下一步
 
-Now that you understand the fundamentals of routing in Next.js, follow the links below to create your first routes:
+现在你已经了解了 Next.js 中路由的基本原理，请点击下面的链接创建你的第一个路由：
