@@ -3,25 +3,19 @@ title: 页面和布局
 description: 使用App 路由创建你的第一个页面和共享布局。
 ---
 
-> 在开始之前，我们推荐您先阅读[路由基础](https://nextjs.org/docs/app/building-your-application/routing) 以及 [定义路由](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) 这两篇文字.
+> 在开始之前，我们推荐您先阅读 [路由基础](https://nextjs.org/docs/app/building-your-application/routing) 以及 [定义路由](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) 这两篇文字.
 
 Next.js 13 中的 App 路由引入了全新的文件约定，可轻松创建[页面](#pages)、[共享布局](#layouts), 和 [模板](#templates)。本页将指导您如何在 Next.js 应用程序中使用这些特殊的文件。
 
 ## 页面
 
-一个页面是指与某个路由路径绑定的一个特定且**唯一**的用户界面。你可以通过从`page.js`文件中导出一个组件来定义页面。使用嵌套文件夹[定义路由]（https://nextjs.org/docs/app/building-your-application/routing/defining-routes）和`page.js`文件来公开访问路由。
+一个页面是指与某个路由路径绑定的一个特定且**唯一**的用户界面。你可以通过从`page.js`文件中导出一个组件来定义页面。使用嵌套文件夹 [定义路由](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) 和`page.js`文件来公开访问路由。
 
 在 `app` 目录中添加 `page.js` 文件，创建第一个页面：
 
-<Image
-  alt="page.js special file"
-  srcLight="https://nextjs.org/_next/image?url=/docs/light/page-special-file.png&w=1920&q=75&dpl=dpl_3srhNWRVm1JHgkz4p8t12eqWjQJ7"
-  srcDark="[/docs/dark/page-special-file.png](https://nextjs.org/_next/image?url=/docs/dark/page-special-file.png&w=1920&q=75&dpl=dpl_3srhNWRVm1JHgkz4p8t12eqWjQJ7)"
-  width="1600"
-  height="444"
-/>
+![](https://nextjs.org/_next/image?url=/docs/light/page-special-file.png&w=1920&q=75&dpl=dpl_3srhNWRVm1JHgkz4p8t12eqWjQJ7)
 
-文件：`app/page.tsx`
+文件：`app/page.js` 或 `app/page.tsx`
 
 ```tsx filename="app/page.tsx" switcher
 // `app/page.tsx` is the UI for the `/` URL
@@ -75,7 +69,7 @@ export default function Page() {
   height="606"
 />
 
-文件名 `app/dashboard/layout.tsx`
+文件名：`app/dashboard/layout.tsx` 或 `app/dashboard/layout.js`
 
 ```tsx filename="app/dashboard/layout.tsx" switcher
 export default function DashboardLayout({
@@ -93,8 +87,6 @@ export default function DashboardLayout({
   )
 }
 ```
-
-文件名 `app/dashboard/layout.js`
 
 ```jsx filename="app/dashboard/layout.js" switcher
 export default function DashboardLayout({
@@ -116,11 +108,11 @@ export default function DashboardLayout({
 > - 最顶部的布局称为[根布局](#root-layout-required)。应用程序中的所有页面都共享这个必需布局。根布局必须包含 `html` 和 `body` 标记；
 > - 任何的路由段都可以选择定义自己的 [布局](#nesting-layouts). 这些布局将在该段的所有页面中共享；
 > - 默认情况下，路由中的布局是 **嵌套** 的。每个父布局都会使用 React `children` 属性来封装其下方的子布局；
-> - 您可以使用[路由组（Route Groups）](/docs/app/building-your-application/routing/route-groups)将特定路由段选入或选出共享布局；
-> - 布局默认为[服务器组件](/docs/getting-started/react-essentials)，但也可以设置为客户端组件。布局默认是 [服务器组件](/docs/getting-started/react-essentials) ，但也可以设置为 [客户端组件](/docs/getting-started/react-essentials#client-components).
-> - 布局可以获取数据。请查看[数据获取](/docs/app/building-your-application/data-fetching)部分了解更多信息.
-> - 父布局与其子布局之间无法传递数据。不过，您可以在路由中多次获取相同的数据，React 会[自动对请求进行去重处理](/docs/app/building-your-application/caching#request-memoization)，而不会影响性能。
-> - 布局无法访问当前路由段。要访问路由段，您可以在客户端组件中使用 [useSelectedLayoutSegment](/docs/app/api-reference/functions/use-selected-layout-segment) 或 [useSelectedLayoutSegments](/docs/app/api-reference/functions/use-selected-layout-segments)。
+> - 您可以使用[路由组（Route Groups）](https://nextjs.org/docs/app/building-your-application/routing/route-groups)将特定路由段选入或选出共享布局；
+> - 布局默认为[服务器组件](https://nextjs.org/docs/getting-started/react-essentials)，但也可以设置为客户端组件。布局默认是 [服务器组件](https://nextjs.org/docs/getting-started/react-essentials) ，但也可以设置为 [客户端组件](https://nextjs.org/docs/getting-started/react-essentials#client-components).
+> - 布局可以获取数据。请查看[数据获取](https://nextjs.org/docs/app/building-your-application/data-fetching)部分了解更多信息.
+> - 父布局与其子布局之间无法传递数据。不过，您可以在路由中多次获取相同的数据，React 会[自动对请求进行去重处理](https://nextjs.org/docs/app/building-your-application/caching#request-memoization)，而不会影响性能。
+> - 布局无法访问当前路由段。要访问路由段，您可以在客户端组件中使用 [useSelectedLayoutSegment](https://nextjs.org/docs/app/api-reference/functions/use-selected-layout-segment) 或 [useSelectedLayoutSegments](https://nextjs.org/docs/app/api-reference/functions/use-selected-layout-segments)。
 > - 布局可以使用 .js、.jsx 或 .tsx 文件扩展名。
 > - layout.js 和 page.js 文件可定义在同一文件夹中。布局将封装页面。
 
@@ -162,20 +154,15 @@ export default function RootLayout({ children }) {
 > - 你可以使用 [路由组](/docs/app/building-your-application/routing/route-groups) 创建多个根布局。 请看这里的 [示例](/docs/app/building-your-application/routing/route-groups#creating-multiple-root-layouts)。
 > - 根布局默认是[服务器组件](/docs/getting-started/react-essentials)，**不能** 设置为[客户端组件](/docs/getting-started/react-essentials#client-components)。
 
-> **Migrating from the `pages` directory:** The root layout replaces the [`_app.js`](/docs/pages/building-your-application/routing/custom-app) and [`_document.js`](/docs/pages/building-your-application/routing/custom-document) files. [View the migration guide](/docs/app/building-your-application/upgrading/app-router-migration#migrating-_documentjs-and-_appjs).
+> **从 `pages` 目录迁移：** 根布局需要替换 [`_app.js`](https://nextjs.org/docs/pages/building-your-application/routing/custom-app) and [`_document.js`](https://nextjs.org/docs/pages/building-your-application/routing/custom-document) 文件. [查看迁移指南](/docs/app/building-your-application/upgrading/app-router-migration#migrating-_documentjs-and-_appjs).
 
-### Nesting Layouts
+### 嵌套布局
 
-Layouts defined inside a folder (e.g. `app/dashboard/layout.js`) apply to specific route segments (e.g. `acme.com/dashboard`) and render when those segments are active. By default, layouts in the file hierarchy are **nested**, which means they wrap child layouts via their `children` prop.
+在文件夹中定义的布局 (比如 `app/dashboard/layout.js`) 适用于特定的路由段 (比如 `acme.com/dashboard`)，且在这些段处于活动的状态时渲染。默认情况下，文件层次结构中的布局是 **嵌套的** ，这意味着它们使用它们的`children` 属性，将子布局包裹起来。
 
-<Image
-  alt="Nested Layout"
-  srcLight="/docs/light/nested-layout.png"
-  srcDark="/docs/dark/nested-layout.png"
-  width="1600"
-  height="606"
-/>
+![](https://nextjs.org/_next/image?url=/docs/light/nested-layout.png&w=1920&q=75&dpl=dpl_3srhNWRVm1JHgkz4p8t12eqWjQJ7)
 
+文件名：`app/dashboard/layout.tsx` 或 `app/dashboard/layout.js`
 ```tsx filename="app/dashboard/layout.tsx" switcher
 export default function DashboardLayout({
   children,
@@ -192,45 +179,32 @@ export default function DashboardLayout({ children }) {
 }
 ```
 
-> **Good to know**:
+> **要知道**:
 >
-> - Only the root layout can contain `<html>` and `<body>` tags.
+> - 只有根布局可以包含 `<html>` 和 `<body>` 标签。
 
-If you were to combine the two layouts above, the root layout (`app/layout.js`) would wrap the dashboard layout (`app/dashboard/layout.js`), which would wrap route segments inside `app/dashboard/*`.
+如果要将上述两种布局结合起来，根布局 (`app/layout.js`) 将封装仪表板布局 (`app/dashboard/layout.js`)，而仪表板布局将封装`app/dashboard/*`内的路由段。
 
-The two layouts would be nested as such:
+这两个布局将嵌套成这样：
 
-<Image
-  alt="Nested Layouts"
-  srcLight="/docs/light/nested-layouts-ui.png"
-  srcDark="/docs/dark/nested-layouts-ui.png"
-  width="1600"
-  height="1026"
-/>
+![](https://nextjs.org/_next/image?url=/docs/light/nested-layouts-ui.png&w=1920&q=75&dpl=dpl_3srhNWRVm1JHgkz4p8t12eqWjQJ7)
 
-You can use [Route Groups](/docs/app/building-your-application/routing/route-groups) to opt specific route segments in and out of shared layouts.
+你可以使用 [路由组](https://nextjs.org/docs/app/building-your-application/routing/route-groups) 将特定路由段选入或选出共享布局。
 
-## Templates
+## 模板
 
-Templates are similar to layouts in that they wrap each child layout or page. Unlike layouts that persist across routes and maintain state, templates create a new instance for each of their children on navigation. This means that when a user navigates between routes that share a template, a new instance of the component is mounted, DOM elements are recreated, state is **not** preserved, and effects are re-synchronized.
+模板与布局类似，都是对每个子布局或页面进行包装。与跨路径持久存在并保持状态的布局不同，模板会在导航时为其每个子节点创建一个新实例。这意味着，当用户在共享模板的路由之间导航时，组件的新实例会被加载，DOM 元素会被重新创建，状态 **不会** 被保留，效果也会重新同步。
 
-There may be cases where you need those specific behaviors, and templates would be a more suitable option than layouts. For example:
+可能需要这些特定行为，而模板是比布局更合适的选择。例如
 
-- Enter/exit animations using CSS or animation libraries.
-- Features that rely on `useEffect` (e.g logging page views) and `useState` (e.g a per-page feedback form).
-- To change the default framework behavior. For example, Suspense Boundaries inside layouts only show the fallback the first time the Layout is loaded and not when switching pages. For templates, the fallback is shown on each navigation.
+- 使用 CSS 或动画库的进入/退出动画。
+- 依赖 `useEffect`（如记录页面浏览）和 useState（如按页面反馈表单）的功能。
+- 更改默认框架行为。例如，布局内的悬念边界只会在首次加载布局时显示回退，而不会在切换页面时显示。对于模板，回退会在每次导航时显示。
+- 建议： 我们建议使用布局，除非有特殊原因需要使用模板。
 
-> **Recommendation:** We recommend using Layouts unless you have a specific reason to use Template.
+模板可以通过从 `template.js` 文件导出一个默认的 React 组件来定义。该组件应接受一个将嵌套分段的`childen`属性。
 
-A template can be defined by exporting a default React component from a `template.js` file. The component should accept a `children` prop which will be nested segments.
-
-<Image
-  alt="template.js special file"
-  srcLight="/docs/light/template-special-file.png"
-  srcDark="/docs/dark/template-special-file.png"
-  width="1600"
-  height="444"
-/>
+![](https://nextjs.org/_next/image?url=/docs/light/template-special-file.pngg&w=1920&q=75&dpl=dpl_3srhNWRVm1JHgkz4p8t12eqWjQJ7)
 
 ```tsx filename="app/template.tsx" switcher
 export default function Template({ children }: { children: React.ReactNode }) {
@@ -244,7 +218,7 @@ export default function Template({ children }) {
 }
 ```
 
-The rendered output of a route segment with a layout and a template will be as such:
+带有布局和模板的路线段的渲染输出将是这样的：
 
 ```jsx filename="Output"
 <Layout>
