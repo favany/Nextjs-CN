@@ -150,11 +150,11 @@ export default function RootLayout({ children }) {
 >
 > - `app` 路径 **必须** 包含一个根布局;
 > - 根布局必须定义 `<html>` 和 `<body>` 标记，因为 Next.js 不会自动创建它们。
-> - 你可以使用 [内置的 SEO 支持](/docs/app/building-your-application/optimizing/metadata) 来管理 `<head>` HTML 元素，例如 `<title>` 元素。
-> - 你可以使用 [路由组](/docs/app/building-your-application/routing/route-groups) 创建多个根布局。 请看这里的 [示例](/docs/app/building-your-application/routing/route-groups#creating-multiple-root-layouts)。
-> - 根布局默认是[服务器组件](/docs/getting-started/react-essentials)，**不能** 设置为[客户端组件](/docs/getting-started/react-essentials#client-components)。
+> - 你可以使用 [内置的 SEO 支持](https://nextjs.org/docs/app/building-your-application/optimizing/metadata) 来管理 `<head>` HTML 元素，例如 `<title>` 元素。
+> - 你可以使用 [路由组](https://nextjs.org/docs/app/building-your-application/routing/route-groups) 创建多个根布局。 请看这里的 [示例](https://nextjs.org/docs/app/building-your-application/routing/route-groups#creating-multiple-root-layouts)。
+> - 根布局默认是[服务器组件](https://nextjs.org/docs/getting-started/react-essentials)，**不能** 设置为[客户端组件](https://nextjs.org/docs/getting-started/react-essentials#client-components)。
 
-> **从 `pages` 目录迁移：** 根布局需要替换 [`_app.js`](https://nextjs.org/docs/pages/building-your-application/routing/custom-app) and [`_document.js`](https://nextjs.org/docs/pages/building-your-application/routing/custom-document) 文件. [查看迁移指南](/docs/app/building-your-application/upgrading/app-router-migration#migrating-_documentjs-and-_appjs).
+> **从 `pages` 目录迁移：** 根布局需要替换 [`_app.js`](https://nextjs.org/docs/pages/building-your-application/routing/custom-app) and [`_document.js`](https://nextjs.org/docs/pages/building-your-application/routing/custom-document) 文件. [查看迁移指南](https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration#migrating-_documentjs-and-_appjs).
 
 ### 嵌套布局
 
@@ -227,11 +227,13 @@ export default function Template({ children }) {
 </Layout>
 ```
 
-## Modifying `<head>`
+## 修改 `<head>`
 
-In the `app` directory, you can modify the `<head>` HTML elements such as `title` and `meta` using the [built-in SEO support](/docs/app/building-your-application/optimizing/metadata).
+在 `app` 目录中，您可以使用[内置的搜索引擎优化支持](https://nextjs.org/docs/app/building-your-application/optimizing/metadata)修改 <head> HTML 元素，如标题和元数据。
 
-Metadata can be defined by exporting a [`metadata` object](/docs/app/api-reference/functions/generate-metadata#the-metadata-object) or [`generateMetadata` function](/docs/app/api-reference/functions/generate-metadata#generatemetadata-function) in a [`layout.js`](/docs/app/api-reference/file-conventions/layout) or [`page.js`](/docs/app/api-reference/file-conventions/page) file.
+元数据可通过在 [`layout.js`](https://nextjs.org/docs/app/api-reference/file-conventions/layout) 或 [`page.js`](https://nextjs.org/docs/app/api-reference/file-conventions/page) 文件中导出 [`metadata` object](https://nextjs.org/docs/app/api-reference/functions/generate-metadata#the-metadata-object) 或 [`generateMetadata` function](https://nextjs.org/docs/app/api-reference/functions/generate-metadata#generatemetadata-function) 来定义。
+
+文件：`app/page.tsx` 或 `app/page.js`
 
 ```tsx filename="app/page.tsx" switcher
 import { Metadata } from 'next'
@@ -255,6 +257,6 @@ export default function Page() {
 }
 ```
 
-> **Good to know**: You should **not** manually add `<head>` tags such as `<title>` and `<meta>` to root layouts. Instead, you should use the [Metadata API](/docs/app/api-reference/functions/generate-metadata) which automatically handles advanced requirements such as streaming and de-duplicating `<head>` elements.
+> **要知道**: 你 **不应该** 在根布局中手动添加像`<title>` 和 `<meta>` 这些 `<head>` 标签。相反，你应该使用 [Metadata API](https://nextjs.org/docs/app/api-reference/functions/generate-metadata)，它可自动处理高级要求，如流式处理和删除重复的 `<head>` 元素。
 
-[Learn more about available metadata options in the API reference.](/docs/app/api-reference/functions/generate-metadata)
+[了解更多有关 API 参考中可用元数据选项的信息。](https://nextjs.org/docs/app/api-reference/functions/generate-metadata)
