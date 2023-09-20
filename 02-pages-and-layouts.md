@@ -231,7 +231,7 @@ export default function Template({ children }) {
 
 在 `app` 目录中，您可以使用[内置的搜索引擎优化支持](https://nextjs.org/docs/app/building-your-application/optimizing/metadata)修改 <head> HTML 元素，如标题和元数据。
 
-元数据可通过在 [`layout.js`](https://nextjs.org/docs/app/api-reference/file-conventions/layout) 或 [`page.js`](https://nextjs.org/docs/app/api-reference/file-conventions/page) 文件中导出 [`metadata` object](https://nextjs.org/docs/app/api-reference/functions/generate-metadata#the-metadata-object) 或 [`generateMetadata` function](https://nextjs.org/docs/app/api-reference/functions/generate-metadata#generatemetadata-function) 来定义。
+元数据可通过在 [`layout.js`](https://nextjs.org/docs/app/api-reference/file-conventions/layout) 或 [`page.js`](https://nextjs.org/docs/app/api-reference/file-conventions/page) 文件中导出 [`metadata` 对象](https://nextjs.org/docs/app/api-reference/functions/generate-metadata#the-metadata-object) 或 [`generateMetadata` 函数](https://nextjs.org/docs/app/api-reference/functions/generate-metadata#generatemetadata-function) 来定义。
 
 文件：`app/page.tsx` 或 `app/page.js`
 
