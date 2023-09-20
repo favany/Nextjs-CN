@@ -61,13 +61,7 @@ export default function Page() {
 
 你可以通过从 `layout.js` 文件中导出一个 React 组件来定义布局。该组件应接受一个 `children` prop，该 prop 将在呈现时填充子布局（如果存在）或子页面。
 
-<Image
-  alt="layout.js special file"
-  srcLight="https://nextjs.org/_next/image?url=/docs/light/layout-special-file.png&w=1920&q=75&dpl=dpl_3srhNWRVm1JHgkz4p8t12eqWjQJ7"
-  srcDark="https://nextjs.org/_next/image?url=/docs/light/layout-special-file.png&w=1920&q=75&dpl=dpl_3srhNWRVm1JHgkz4p8t12eqWjQJ7"
-  width="1600"
-  height="606"
-/>
+![](https://nextjs.org/_next/image?url=/docs/light/layout-special-file.png&w=1920&q=75&dpl=dpl_3srhNWRVm1JHgkz4p8t12eqWjQJ7)
 
 文件名：`app/dashboard/layout.tsx` 或 `app/dashboard/layout.js`
 
